@@ -1,0 +1,299 @@
+library (dplyr)
+# Top 10 areas with the highest overall risk score
+top_risk_areas <- nri_data %>% arrange(desc(risk_score)) %>% head(10)
+#scatterplot
+ggplot(top_risk_areas, aes(x = risk_score, y = reorder(fulllocation, risk_score))) +
+  geom_point(color = "magenta", size = 2) + 
+  labs(x = "Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Overall Risk Scores") 
+
+# Top 10 areas with the highest risk score per natural disaster
+top_avalanche_areas <- nri_data %>% arrange(desc(avln_risks)) %>% head(10)
+top_coastalflooding_areas <- nri_data %>% arrange(desc(cfld_risks)) %>% head(10)
+top_coldwave_areas <- nri_data %>% arrange(desc(cwav_risks)) %>% head(10)
+top_drought_areas <- nri_data %>% arrange(desc(drgt_risks)) %>% head(10)
+top_earthquake_areas <- nri_data %>% arrange(desc(erqk_risks)) %>% head(10)
+top_hail_areas <- nri_data %>% arrange(desc(hail_risks)) %>% head(10)
+top_heatwave_areas <- nri_data %>% arrange(desc(hwav_risks)) %>% head(10)
+top_hurricane_areas <- nri_data %>% arrange(desc(hrcn_risks)) %>% head(10)
+top_icestorm_areas <- nri_data %>% arrange(desc(istm_risks)) %>% head(10)
+top_landslide_areas <- nri_data %>% arrange(desc(lnds_risks)) %>% head(10)
+top_lightning_areas <- nri_data %>% arrange(desc(ltng_risks)) %>% head(10)
+top_riverineflooding_areas <- nri_data %>% arrange(desc(rfld_risks)) %>% head(10)
+top_strongwind_areas <- nri_data %>% arrange(desc(swnd_risks)) %>% head(10)
+top_tornado_areas <- nri_data %>% arrange(desc(trnd_risks)) %>% head(10)
+top_tsunami_areas <- nri_data %>% arrange(desc(tsun_risks)) %>% head(10)
+top_volcano_areas <- nri_data %>% arrange(desc(vlcn_risks)) %>% head(10)
+top_wildfire_areas <- nri_data %>% arrange(desc(wfir_risks)) %>% head(10)
+top_winterweather_areas <- nri_data %>% arrange(desc(wntw_risks)) %>% head(10)
+
+library(ggplot2)
+library(dplyr)
+
+
+# Create a bar chart for the top 10 risk areas for each natural disaster
+avln <- ggplot(top_avalanche_areas, aes(x = avln_risks, y = reorder(fulllocation, -avln_risks))) +
+  geom_bar(stat = "identity", fill = "red") +
+  labs(x = "Avalanche Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Avalanche Risk Scores") 
+
+cfld <- ggplot(top_coastalflooding_areas, aes(x = cfld_risks, y = reorder(fulllocation, -cfld_risks))) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(x = "Coastal Flooding Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Coastal Flooding Risk Scores") 
+
+cwav <- ggplot(top_coldwave_areas, aes(x = cwav_risks, y = reorder(fulllocation, -cwav_risks))) +
+  geom_bar(stat = "identity", fill = "green") +
+  labs(x = "Coldwave Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Coldwave Risk Scores")
+
+drgt<- ggplot(top_drought_areas, aes(x = drgt_risks, y = reorder(fulllocation, -drgt_risks))) +
+  geom_bar(stat = "identity", fill = "purple") +
+  labs(x = "Drought Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Drought Risk Scores")
+
+erqk<- ggplot(top_earthquake_areas, aes(x = erqk_risks, y = reorder(fulllocation, -erqk_risks))) +
+  geom_bar(stat = "identity", fill = "orange") +
+  labs(x = "Earthquake Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Earthquake Risk Scores")
+
+hail <- ggplot(top_hail_areas, aes(x = hail_risks, y = reorder(fulllocation, -hail_risks))) +
+  geom_bar(stat = "identity", fill = "pink") +
+  labs(x = "Hail Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Hail Risk Scores")
+
+hwav<- ggplot(top_heatwave_areas, aes(x = hwav_risks, y = reorder(fulllocation, -hwav_risks))) +
+  geom_bar(stat = "identity", fill = "brown") +
+  labs(x = "Heatwave Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Heatwave Risk Scores")
+
+hrcn <- ggplot(top_hurricane_areas, aes(x = hrcn_risks, y = reorder(fulllocation, -hrcn_risks))) +
+  geom_bar(stat = "identity", fill = "cyan") +
+  labs(x = "Hurricane Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Hurricane Risk Scores")
+
+istm<- ggplot(top_icestorm_areas, aes(x = istm_risks, y = reorder(fulllocation, -istm_risks))) +
+  geom_bar(stat = "identity", fill = "magenta") +
+  labs(x = "Icestorm Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Icestorm Risk Scores")
+
+lnds<- ggplot(top_landslide_areas, aes(x = lnds_risks, y = reorder(fulllocation, -lnds_risks))) +
+  geom_bar(stat = "identity", fill = "darkgreen") +
+  labs(x = "Landslide Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Landslide Risk Scores")
+
+ltng <- ggplot(top_lightning_areas, aes(x = ltng_risks, y = reorder(fulllocation, -ltng_risks))) +
+  geom_bar(stat = "identity", fill = "darkred") +
+  labs(x = "Lightning Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Lightning Risk Scores")
+
+rfld <- ggplot(top_riverineflooding_areas, aes(x = rfld_risks, y = reorder(fulllocation, -rfld_risks))) +
+  geom_bar(stat = "identity", fill = "lightblue") +
+  labs(x = "Riverine Flooding Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Riverine Flooding Risk Scores")
+
+swnd<- ggplot(top_strongwind_areas, aes(x = swnd_risks, y = reorder(fulllocation, -swnd_risks))) +
+  geom_bar(stat = "identity", fill = "darkblue") +
+  labs(x = "Strong Wind Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Stong Wind Risk Scores")
+
+trnd <- ggplot(top_tornado_areas, aes(x = trnd_risks, y = reorder(fulllocation, -trnd_risks))) +
+  geom_bar(stat = "identity", fill = "darkorange") +
+  labs(x = "Tornado Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Tornado Risk Scores")
+
+tsun <- ggplot(top_tsunami_areas, aes(x = tsun_risks, y = reorder(fulllocation, -tsun_risks))) +
+  geom_bar(stat = "identity", fill = "darkcyan") +
+  labs(x = "Tsunami Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Tsunami Risk Scores")
+
+vlcn<- ggplot(top_volcano_areas, aes(x = vlcn_risks, y = reorder(fulllocation, -vlcn_risks))) +
+  geom_bar(stat = "identity", fill = "darkmagenta") +
+  labs(x = "Volcano Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Volcano Risk Scores")
+
+wfir <- ggplot(top_wildfire_areas, aes(x = wfir_risks, y = reorder(fulllocation, -wfir_risks))) +
+  geom_bar(stat = "identity", fill = "gold") +
+  labs(x = "Wildfire Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Wildfire Risk Scores")
+
+wntw<- ggplot(top_winterweather_areas, aes(x = wntw_risks, y = reorder(fulllocation, -wntw_risks))) +
+  geom_bar(stat = "identity", fill = "gray") +
+  labs(x = "Winter Weather Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Winter Weather Risk Scores")
+
+library(gridExtra)
+
+# Arrange the individual bar plots in a grid
+grid.arrange(
+  avln, cfld, cwav, drgt, erqk, hail, hwav, hrcn, istm, lnds, 
+  ltng, rfld, swnd, trnd, tsun, vlcn, wfir, wntw,
+  ncol = 3  
+)
+
+#too much data, splitting grids into 2
+
+grid.arrange(avln, cfld, cwav, drgt, erqk, hail, hwav, hrcn, istm,
+             ncol = 3  
+)
+
+grid.arrange(lnds, ltng, rfld, swnd, trnd, tsun, vlcn, wfir, wntw,
+             ncol = 3  
+)
+
+#bar chart is a bit difficult to see, trying scatterplots instead 
+#---------------------------- scatter plot graphs
+ggplot(top_coastalflooding_areas, aes(x = reorder(fulllocation, -cfld_risks), y = cfld_risks)) +
+  geom_line(aes(group = 1), color = "blue") +  # Add the line with a group aesthetic
+  geom_point(color = "red", size = 2) +  # Add points with red color and size
+  labs(x = "County", y = "Coastal Flooding Risk Score") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Coastal Flooding Risk Scores by County") +
+  scale_y_reverse() 
+
+avln_line <- ggplot(top_avalanche_areas, aes(x = avln_risks, y = reorder(fulllocation, avln_risks))) +
+  geom_point(color = "red", size = 2) +  # Add points with red color and size
+  labs(x = "Avalanche Flooding Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Avalanche Risk Scores")
+
+cfld_line <- ggplot(top_coastalflooding_areas, aes(x = cfld_risks, y = reorder(fulllocation, cfld_risks))) +
+  geom_point(color = "blue", size = 2) +  # Add points with red color and size
+  labs(x = "Coastal Flooding Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Coastal Flooding Risk Scores")
+
+cwav_line <- ggplot(top_coldwave_areas, aes(x = cwav_risks, y = reorder(fulllocation, cwav_risks))) +
+  geom_point(color = "green", size = 2) + 
+  labs(x = "Coldwave Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Coldwave Risk Scores") 
+
+drgt_line <- ggplot(top_drought_areas, aes(x = drgt_risks, y = reorder(fulllocation, drgt_risks))) +
+  geom_point(color = "purple", size = 2) + 
+  labs(x = "Drought Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Drought Risk Scores")
+
+erqk_line <- ggplot(top_earthquake_areas, aes(x = erqk_risks, y = reorder(fulllocation, erqk_risks))) +
+  geom_point(color = "orange", size = 2) + 
+  labs(x = "Earthquake Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Earthquake Risk Scores") 
+
+hail_line <- ggplot(top_hail_areas, aes(x = hail_risks, y = reorder(fulllocation, hail_risks))) +
+  geom_point(color = "pink", size = 2) + 
+  labs(x = "Hail Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Hail Risk Scores") 
+
+hwav_line <- ggplot(top_heatwave_areas, aes(x = hwav_risks, y = reorder(fulllocation, hwav_risks))) +
+  geom_point(color = "brown", size = 2) + 
+  labs(x = "Heatwave Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Heatwave Risk Scores")
+
+hrcn_line <- ggplot(top_hurricane_areas, aes(x = hrcn_risks, y = reorder(fulllocation, hrcn_risks))) +
+  geom_point(color = "cyan", size = 2) + 
+  labs(x = "Hurricane Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Hurricane Risk Scores") 
+
+istm_line <- ggplot(top_icestorm_areas, aes(x = istm_risks, y = reorder(fulllocation, istm_risks))) +
+  geom_point(color = "magenta", size = 2) + 
+  labs(x = "Icestorm Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Icestorm Risk Scores") 
+
+lnds_line <- ggplot(top_landslide_areas, aes(x = lnds_risks, y = reorder(fulllocation, lnds_risks))) +
+  geom_point(color = "darkgreen", size = 2) + 
+  labs(x = "Landslide Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Landslide Risk Scores") 
+
+ltng_line <- ggplot(top_lightning_areas, aes(x = ltng_risks, y = reorder(fulllocation, ltng_risks))) +
+  geom_point(color = "darkred", size = 2) + 
+  labs(x = "Lightning Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Lightning Risk Scores") 
+
+rfld_line <- ggplot(top_riverineflooding_areas, aes(x = rfld_risks, y = reorder(fulllocation, rfld_risks))) +
+  geom_point(color = "lightblue", size = 2) + 
+  labs(x = "Riverine Flooding Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Riverine Flooding Risk Scores") 
+
+swnd_line <- ggplot(top_strongwind_areas, aes(x = swnd_risks, y = reorder(fulllocation, swnd_risks))) +
+  geom_point(color = "darkblue", size = 2) + 
+  labs(x = "Strong Wind Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Stong Wind Risk Scores") 
+
+trnd_line <- ggplot(top_tornado_areas, aes(x = trnd_risks, y = reorder(fulllocation, trnd_risks))) +
+  geom_point(color = "darkorange", size = 2) + 
+  labs(x = "Tornado Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Tornado Risk Scores") 
+
+tsun_line <- ggplot(top_tsunami_areas, aes(x = tsun_risks, y = reorder(fulllocation, tsun_risks))) +
+  geom_point(color = "darkcyan", size = 2) + 
+  labs(x = "Tsunami Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Tsunami Risk Scores") 
+
+vlcn_line <- ggplot(top_volcano_areas, aes(x = vlcn_risks, y = reorder(fulllocation, vlcn_risks))) +
+  geom_point(color = "darkmagenta", size = 2) + 
+  labs(x = "Volcano Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Volcano Risk Scores") 
+
+wfir_line <- ggplot(top_wildfire_areas, aes(x = wfir_risks, y = reorder(fulllocation, wfir_risks))) +
+  geom_point(color = "gold", size = 2) + 
+  labs(x = "Wildfire Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Wildfire Risk Scores") 
+
+wntw_line <- ggplot(top_winterweather_areas, aes(x = wntw_risks, y = reorder(fulllocation, wntw_risks))) +
+  geom_point(color = "gray", size = 2) + 
+  labs(x = "Winter Weather Risk Score", y = "County") +
+  theme(axis.text.y = element_text(hjust = 1)) +
+  ggtitle("Top 10 Areas with Highest Winter Weather Risk Scores")
+
+
+library(gridExtra)
+
+# Arrange the individual scatter plots in a grid
+grid.arrange(
+  avln_line, cfld_line, cwav_line, drgt_line, erqk_line, hail_line, hwav_line, hrcn_line, istm_line,
+  lnds_line, ltng_line, rfld_line, swnd_line, trnd_line, tsun_line, vlcn_line, wfir_line, wntw_line,
+  ncol = 3  
+)
+
+#too much data, splitting grids into 2
+
+grid.arrange(avln_line, cfld_line, cwav_line, drgt_line, erqk_line, hail_line, hwav_line, hrcn_line, istm_line,
+             ncol = 3  
+)
+
+grid.arrange(lnds_line, ltng_line, rfld_line, swnd_line, trnd_line, tsun_line, vlcn_line, wfir_line, wntw_line,
+             ncol = 3  
+)
