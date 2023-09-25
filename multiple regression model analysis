@@ -1,0 +1,11 @@
+# Fit a multiple regression model
+multiple_regression_model <- lm(risk_score ~ population + buildvalue + agrivalue + area + eal_score + sovi_score + resl_score, data = nri_data)
+
+# View the summary of the regression model
+summary(multiple_regression_model)
+
+#view the coeffcients closely 
+summary(multiple_regression_model)$coefficient
+
+#calculate coefficient intervals
+confint(multiple_regression_model)
