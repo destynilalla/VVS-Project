@@ -1,0 +1,17 @@
+nri_data <- read.csv("NRI_Table_Counties/NRI_Table_Counties_cleaned.csv")
+head(nri_data)    # View the first few rows of the dataset
+summary(nri_data) # Generate summary statistics
+str(nri_data)     # Examine the structure of the dataset
+
+any(is.na(nri_data$STATE)) # Check for NAs in State column
+any(is.na(nri_data$COUNTY)) # Check for NAs in County column
+any(is.na(nri_data$RISK_SCORE)) # Check for NAs in Risk Score
+
+nri_data <- nri_data[complete.cases(nri_data$RISK_SCORE), ] # Remove rows with NAs in the "Risk Score" column
+any(is.na(nri_data$RISK_SCORE)) # Check to ensure all NAs are removed
+
+#make the columns and data lowercase for ease
+names(nri_data) <- tolower(names(nri_data)) # Make all col names lowercase
+nri_data$county <- tolower(nri_data$county) # Make all values lowercase in county column
+nri_data$state <- tolower(nri_data$state) # Make all values lowercase in state column 
+nri_data$fulllocation <- paste(nri_data$county, nri_data$state, sep = ", ") # merge county and state together in a column 
