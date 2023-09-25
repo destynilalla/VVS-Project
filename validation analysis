@@ -1,0 +1,19 @@
+# Load the caret package
+library(caret)
+
+# Specify the number of folds for cross-validation
+num_folds <- 5
+
+# Create a control object for cross-validation
+ctrl <- trainControl(method = "cv", number = num_folds)
+
+# Fit the multiple regression model using k-fold cross-validation
+model <- train(
+  risk_score ~ population + buildvalue + agrivalue + area + eal_score + sovi_score + resl_score,
+  data = nri_data,
+  method = "lm",
+  trControl = ctrl
+)
+
+# Print the cross-validated model performance
+print(model)
