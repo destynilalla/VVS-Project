@@ -1,0 +1,15 @@
+cor(nri_data$population, nri_data$risk_score)
+cor(nri_data$buildvalue, nri_data$risk_score)
+cor(nri_data$agrivalue, nri_data$risk_score)
+cor(nri_data$area, nri_data$risk_score)
+cor(nri_data$eal_score, nri_data$risk_score)
+cor(nri_data$sovi_score, nri_data$risk_score)
+cor(nri_data$resl_score, nri_data$risk_score)
+
+
+cor_matrix <- cor(nri_data[, c("population", "buildvalue", "agrivalue", "area", "eal_score", "sovi_score", "resl_score", "risk_score")])
+library(corrplot)
+corrplot(cor_matrix, method = "color")
+
+col<- colorRampPalette(c("red", "white", "blue"))(20)
+heatmap(x = cor_matrix, col = col, symm = TRUE)
