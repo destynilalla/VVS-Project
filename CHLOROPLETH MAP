@@ -1,0 +1,35 @@
+#CHLOROPLETH MAP
+# This code generates a choropleth map that represents the spatial distribution of risk scores across different counties.
+
+#LOAD DATA
+library(readxl)
+nri_data_with_geocode <- read_excel("nri_data_with_geocode.xls")
+
+library(sf)
+library(maps)
+library(dplyr)
+library(ggplot2)
+
+counties <- st_as_sf(map('county', plot = F, fill = T))
+str(counties)
+head(counties)
+#make a blank counties map
+ggplot() +
+  geom_sf(data = counties)
+
+#need to make a column to match counties column
+nri_data_with_geocode$ID <- paste(nri_data_with_geocode$state, nri_data_with_geocode$county, sep = ",") # merge county and state together in a column 
+
+#isolating df to new df
+risk_score_df <- nri_data_with_geocode %>%
+  dplyr::select(ID, risk_score)
+
+#merge data
+merged_data <- merge(counties, risk_score_df, by.x = "ID", by.y = "ID", all.x = TRUE)
+
+# Plot the choropleth map
+ggplot() +
+  geom_sf(data = merged_data, aes(fill = risk_score)) +
+  scale_fill_gradient(low = "yellow", high = "blue", na.value = "grey50", name = "Risk Score") +
+  theme_void()
+
