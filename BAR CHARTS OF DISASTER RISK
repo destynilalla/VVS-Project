@@ -1,0 +1,92 @@
+#BAR CHARTS OF DISASTER RISK
+#This bar chart visualizes the average risk scores for different disaster categories in each state of the 50 US states. 
+#First, one bar chart is plotted using FL as an example.
+#Then, a function is created to generate a bar chart for each of the 50 states. 
+#The ordered bar charts make it easier to identify the most and least at risk disaster categories for each state. 
+
+
+library(ggplot2)
+###### FL
+# Subset the data for one state: FL
+state_data <- subset(nri_data, stateabbrv == "FL")
+
+# Subset the data to include only relevant columns
+risk_columns <- c("avln_risks", "cfld_risks", "cwav_risks", "drgt_risks", "erqk_risks", "hail_risks", 
+                  "hwav_risks", "hrcn_risks", "istm_risks", "lnds_risks", "ltng_risks", "rfld_risks", 
+                  "swnd_risks", "trnd_risks", "tsun_risks", "vlcn_risks", "wfir_risks", "wntw_risks")
+risk_data <- state_data[, risk_columns]
+
+
+# Calculate the average risk score for each disaster category
+average_risk <- colMeans(risk_data, na.rm = TRUE)
+
+# Create a data frame for the bar chart
+bar_data <- data.frame(disaster = names(average_risk), average_score = average_risk)
+
+#create a bar chart
+ggplot(bar_data, aes(x = disaster, y = average_score, fill = disaster)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Risk Score per Disaster Category in FL",
+       x = "Disaster Category",
+       y = "Average Score",
+       fill = "Disaster Category") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+#order it in descending order
+bar_data$disaster <- reorder(bar_data$disaster, -bar_data$average_score)
+
+ggplot(bar_data, aes(x = disaster, y = average_score, fill = disaster)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Risk Score per Disaster Category in FL",
+       x = "Disaster Category",
+       y = "Average Score",
+       fill = "Disaster Category") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+######## function for all states
+library(dplyr)
+library(ggplot2)
+
+# Function to create average risk score bar chart for a specific state
+create_state_bar_chart <- function(state_abbrv) {
+  # Subset the data for the specified state
+  state_data <- subset(nri_data, stateabbrv == state_abbrv)
+  
+  # Subset the data to include only relevant columns
+  risk_columns <- c("avln_risks", "cfld_risks", "cwav_risks", "drgt_risks", "erqk_risks", "hail_risks", 
+                    "hwav_risks", "hrcn_risks", "istm_risks", "lnds_risks", "ltng_risks", "rfld_risks", 
+                    "swnd_risks", "trnd_risks", "tsun_risks", "vlcn_risks", "wfir_risks", "wntw_risks")
+  risk_data <- state_data[, risk_columns]
+  
+  # Calculate the average risk score for each disaster category
+  average_risk <- colMeans(risk_data, na.rm = TRUE)
+  
+  # Create a data frame for the bar chart
+  bar_data <- data.frame(disaster = names(average_risk), average_score = average_risk)
+  
+  # Order the data by average score in descending order
+  bar_data$disaster <- reorder(bar_data$disaster, -bar_data$average_score)
+  
+  # Create and return the bar chart
+  ggplot(bar_data, aes(x = disaster, y = average_score, fill = disaster)) +
+    geom_bar(stat = "identity") +
+    labs(title = paste("Average Risk Score per Disaster Category in", state_abbrv),
+         x = "Disaster Category",
+         y = "Average Score",
+         fill = "Disaster Category") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+}
+
+# Apply the function to all states (assuming 'stateabbrv' contains all state abbreviations)
+all_states <- unique(nri_data$stateabbrv)
+
+# Create a list to store the plots
+state_plots <- lapply(all_states, create_state_bar_chart)
+
+# View or save the individual plots in the 'state_plots' list
+state_plots
