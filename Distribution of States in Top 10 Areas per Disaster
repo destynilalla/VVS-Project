@@ -1,0 +1,45 @@
+#Distribution of States in Top 10 Areas per Disaster
+#I created a bar chart to visualize the distribution of states in the top 10 areas per disaster. 
+#The height of each bar represents the count (frequency) of states that appear in the top 10 areas for different types of disasters. 
+#This gives an indication of how often each state is mentioned as a high-risk area across various disaster categories. 
+#Different colors represent different types of disasters (e.g., hurricanes, wildfires, earthquakes). 
+#By examining the distribution of states across these colors, you can observe which states are frequently mentioned as high-risk areas for specific types of disasters
+
+
+library(dplyr)
+library(ggplot2)
+
+# Combine the top areas for each disaster
+top_areas_combined <- bind_rows(
+  top_avalanche_areas,
+  top_coastalflooding_areas,
+  top_coldwave_areas,
+  top_drought_areas,
+  top_earthquake_areas,
+  top_hail_areas,
+  top_heatwave_areas,
+  top_hurricane_areas,
+  top_icestorm_areas,
+  top_landslide_areas,
+  top_lightning_areas,
+  top_riverineflooding_areas,
+  top_strongwind_areas,
+  top_tornado_areas,
+  top_tsunami_areas,
+  top_volcano_areas,
+  top_wildfire_areas,
+  top_winterweather_areas
+)
+
+# Count occurrences of each state
+state_counts <- top_areas_combined %>% count(state)
+
+# CREATING A BAR CHART INSTEAD
+ggplot(state_counts, aes(x = state, y = n, fill = state)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Distribution of States in Top 10 Areas per Disaster",
+       x = "State",
+       y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
