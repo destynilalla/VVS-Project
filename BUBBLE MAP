@@ -1,0 +1,98 @@
+#BUBBLE MAP
+# This code creates interactive maps that visualize the geographic distribution of risk scores across counties and states.
+# The first map focuses on Alabama, showing circles for each county with the risk_score as the size of the circles.
+# The second map covers the entire United States, iterating over each state and adding circles with risk_score information.
+# The third map introduces a color gradient (from pink to blue) based on risk_score values.
+
+# Install and load required packages
+library(leaflet)
+library(leaflet.extras)
+library(readxl)
+library(dplyr)
+
+# Assuming your data is stored in a data frame named nri_data_with_geocode
+nri_data_with_geocode <- read_excel("nri_data_with_geocode.xls")
+
+# Subset the data for one state (e.g., Alabama, state abbreviation "AL")
+state_data <- subset(nri_data_with_geocode, stateabbrv == "AL")
+
+# Create a leaflet map
+m <- leaflet(state_data) %>%
+  addTiles() %>%
+  setView(lng = -86.902298, lat = 32.318231, zoom = 6)  # Set the initial view to Alabama
+
+# Add circles for each county with risk_score as the size of the circles
+m <- m %>%
+  addCircles(
+    lng = ~longitude,  # Replace with the actual column name containing longitude
+    lat = ~latitude,   # Replace with the actual column name containing latitude
+    radius = ~risk_score * 100,  # Adjust the multiplier for an appropriate circle size
+    color = "red",      # Color of the circles
+    fillOpacity = 0.6,  # Opacity of the circles
+    popup = ~paste("County: ", county, "<br>Risk Score: ", risk_score)
+  )
+
+# Display the map
+m
+
+
+
+#####setting for the entire map
+
+m <- leaflet() %>%
+  addTiles() %>%
+  setView(lng = -96, lat = 37, zoom = 4)  # Set the initial view to the United States
+
+# Iterate over each state
+for (state_abbrv in unique(nri_data_with_geocode$stateabbrv)) {
+  # Subset the data for the current state
+  state_data <- subset(nri_data_with_geocode, stateabbrv == state_abbrv)
+  
+  # Add circles for each county with risk_score as the size of the circles
+  m <- m %>%
+    addCircles(
+      data = state_data,
+      lng = ~longitude,  # Replace with the actual column name containing longitude
+      lat = ~latitude,   # Replace with the actual column name containing latitude
+      radius = ~risk_score * 100,  # Adjust the multiplier for an appropriate circle size
+      color = "red",      # Color of the circles
+      fillOpacity = 0.6,  # Opacity of the circles
+      popup = ~paste("State: ", state, "<br>County: ", county, "<br>Risk Score: ", risk_score)
+    )
+}
+
+# Display the map
+m
+
+
+######Color coding based on risk_score values
+
+
+m <- leaflet() %>%
+  addTiles() %>%
+  setView(lng = -96, lat = 37, zoom = 4)  # Set the initial view to the United States
+
+# Add a color gradient from red to green for risk_score
+color_scale <- colorNumeric(palette = c("pink", "blue"), domain = nri_data_with_geocode$risk_score)
+
+# Iterate over each state
+for (state_abbrv in unique(nri_data_with_geocode$stateabbrv)) {
+  # Subset the data for the current state
+  state_data <- subset(nri_data_with_geocode, stateabbrv == state_abbrv)
+  
+  # Add circles for each county with risk_score as the size of the circles
+  m <- m %>%
+    addCircles(
+      data = state_data,
+      lng = ~longitude,  # Replace with the actual column name containing longitude
+      lat = ~latitude,   # Replace with the actual column name containing latitude
+      radius = ~risk_score * 100,  # Adjust the multiplier for an appropriate circle size
+      color = ~color_scale(risk_score),  # Use the color scale
+      fillOpacity = 0.6,  # Opacity of the circles
+      popup = ~paste("State: ", state, "<br>County: ", county, "<br>Risk Score: ", risk_score)
+    )
+}
+
+# Display the map
+m
+
