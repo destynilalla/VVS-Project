@@ -10,7 +10,6 @@ library(leaflet.extras)
 library(readxl)
 library(dplyr)
 
-# Assuming your data is stored in a data frame named nri_data_with_geocode
 nri_data_with_geocode <- read_excel("nri_data_with_geocode.xls")
 
 # Subset the data for one state (e.g., Alabama, state abbreviation "AL")
