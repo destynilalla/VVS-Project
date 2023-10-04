@@ -1,0 +1,50 @@
+# HEXABIN MAP
+# This code creates visualizations that show the spatial distribution of risk scores across U.S. states using hexagonal bins. 
+# The first set of maps provides a visual representation of the hexgrid with state names and abbreviations. 
+# The final chloropleth hexabin map overlays the NRI data (specifically risk_score) on the hexgrid, offering insights into the spatial distribution of risk scores across states.
+
+#LOAD DATA
+library(readxl)
+nri_data_with_geocode <- read_excel("nri_data_with_geocode.xls")
+# Install and load the required packages
+library(sf)
+library(ggplot2)
+library(dplyr)
+
+# Read GeoJSON file using sf
+spdf <- st_read("/Users/destynilalla/Desktop/VVS Project/us_states_hexgrid.geojson")
+str(spdf)
+
+# Bit of reformatting
+spdf <- spdf %>%
+  mutate(google_name = gsub(" \\(United States\\)", "", google_name))
+
+# Calculate the centroid of each hexagon to add the label
+centers <- st_centroid(spdf)
+
+# Create the map using ggplot2 and sf
+ggplot() +
+  geom_sf(data = spdf, aes(fill = google_name), color = "white") +
+  geom_sf_text(data = centers, aes(label = google_name), color = "black", size = 2) +
+  theme_void()
+
+# Create the map using state abbreviations instead
+ggplot() +
+  geom_sf(data = spdf, aes(fill = iso3166_2), color = "white") +
+  geom_sf_text(data = centers, aes(label = iso3166_2), color = "black", size = 2) +
+  theme_void()
+
+#make a column that matches the hexabin data column
+nri_data_with_geocode$iso3166_2 <- nri_data_with_geocode$stateabbrv
+# Merge the spatial data with the nri data
+spdf_merged <- merge(spdf, nri_data_with_geocode, by = "iso3166_2", all.x = TRUE)
+
+# Calculate the centroid of each hexagon to add the label
+centers <- st_centroid(spdf_merged)
+
+# Create the chloropleth hexabin map using ggplot2 and sf
+ggplot() +
+  geom_sf(data = spdf_merged, aes(fill = risk_score), color = "white") +
+  geom_sf_text(data = centers, aes(label = iso3166_2), color = "black", size = 2) +
+  scale_fill_gradient(low = "yellow", high = "blue", na.value = "grey50", name = "Risk Score") +
+  theme_void()
